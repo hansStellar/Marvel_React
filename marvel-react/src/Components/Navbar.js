@@ -37,6 +37,7 @@ const Navbar = () => {
         </label>
       </form>
     </nav>
+
   );
 };
 
