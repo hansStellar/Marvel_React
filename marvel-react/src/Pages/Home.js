@@ -1,47 +1,25 @@
 import React, { useState } from "react";
 import Hero from "../Components/Hero.js";
+import { useSelector } from "react-redux";
 
 const Home = () => {
-  const [data, setData] = useState([]);
-  const [search, setSearch] = useState("");
-
-  const handleInputChange = (event) => {
-    setSearch(event.target.value);
-  };
-
-  const requestMarvelAPI = (event) => {
-    event.preventDefault();
-    fetch(
-      `https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=${search}&apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data.data.results);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const characters = useSelector((state) => state.characters.characters);
+  console.log(characters);
 
   return (
-    <div>
-      <form onSubmit={requestMarvelAPI}>
-        {/* Search Bar */}
-        <input type="text" value={search} onChange={handleInputChange} />
-        {/* Button Search */}
-        <button type="submit">Search</button>
-      </form>
-
-      {data.length >= 1 ? (
-        <div>
+    <div className="container m-auto">
+      {characters.length >= 1 ? (
+        <div className="sm:columns-1 md:columns-2 lg:columns-3">
           <ul>
-            {data.map((item, index) => {
-              return <Hero hero={item} />;
+            {characters.map((item, index) => {
+              return <Hero hero={item} key={index} />;
             })}
           </ul>
         </div>
       ) : (
-        <p>Please, start browsing characters in the input above</p>
+        <div className="">
+          <p>Please, start browsing characters in the input above</p>
+        </div>
       )}
     </div>
   );
