@@ -2,7 +2,7 @@ import React from "react";
 
 const Hero = ({ hero }) => {
   return (
-    <li className="text-left flex flex-col mx-6 mb-12 font-bold">
+    <li className="text-left flex flex-col mx-6 mb-12 font-bold hover:scale-110 transition duration-200">
       <img
         src={hero.thumbnail.path + "." + hero.thumbnail.extension}
         alt={hero.name}
