@@ -1,28 +1,34 @@
-import React, { useState } from "react";
-import { searchCharacters } from "../redux/actions/charactersAction";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AppContext from "../AppContext";
 
 const Navbar = () => {
-  // DOM
-  const navigate = useNavigate();
+  // State
+  const [searchNav, setSearchNav] = useState("");
+
+  // Global State
+  const { myState, setMyState } = useContext(AppContext);
 
   // Search
-  const [searchNav, setSearch] = useState("");
-  const handleInputChange = (event) => {
-    setSearch(event.target.value);
+  const search = (event) => {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      fetch(
+        `https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=${searchNav}&apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setMyState(data.data.results);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
-  // Redux
-  const dispatch = useDispatch();
-
-  // Send String to Redux
-  const requestMarvelAPI = (event) => {
-    if (event.key === "Enter") {
-      navigate("/");
-      event.preventDefault();
-      dispatch(searchCharacters(searchNav));
-    }
+  // Functions
+  const handleInputChange = (event) => {
+    setSearchNav(event.target.value);
   };
 
   return (
@@ -35,9 +41,8 @@ const Navbar = () => {
             placeholder="Search any character..."
             type="text"
             name="search"
-            value={searchNav}
             onChange={handleInputChange}
-            onKeyDown={requestMarvelAPI}
+            onKeyDown={search}
           />
         </label>
       </form>
