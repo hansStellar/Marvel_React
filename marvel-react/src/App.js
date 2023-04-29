@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages
 import Home from "./Pages/Home";
-import Characters from "./Pages/Characters";
-import Series from "./Pages/Series";
+import SingleObject from "./Pages/Single-Object";
 
 // Navbar
 import Navbar from "./Components/Navbar";
@@ -22,8 +21,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" exact element={<Home />} />
-          <Route path="/characters" element={<Characters />} />
-          <Route path="/series" element={<Series />} />
+          <Route path="/single-object" element={<SingleObject />} />
         </Routes>
       </Router>
     </AppContext.Provider>

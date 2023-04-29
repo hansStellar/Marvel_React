@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import Hero from "../Components/Hero.js";
+import Object from "../Components/Object.js";
 import AppContext from "../AppContext.js";
 
 const Home = () => {
@@ -12,7 +12,7 @@ const Home = () => {
         <div className="sm:columns-1 md:columns-2 lg:columns-3">
           <ul>
             {myState.map((item, index) => {
-              return <Hero hero={item} key={index} />;
+              return <Object info={item} key={index} />;
             })}
           </ul>
         </div>

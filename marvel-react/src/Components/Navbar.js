@@ -1,10 +1,13 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppContext from "../AppContext";
-
 const Navbar = () => {
   // State
   const [searchNav, setSearchNav] = useState("");
+  const [mode, setMode] = useState("Characters");
+
+  // Router
+  const navigate = useNavigate();
 
   // Global State
   const { myState, setMyState } = useContext(AppContext);
@@ -13,22 +16,54 @@ const Navbar = () => {
   const search = (event) => {
     if (event.keyCode === 13) {
       event.preventDefault();
-      fetch(
-        `https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=${searchNav}&apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          setMyState(data.data.results);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (mode == "Characters") {
+        fetch(
+          `https://gateway.marvel.com:443/v1/public/characters?nameStartsWith=${searchNav}&apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
+        )
+          .then((response) => response.json())
+          .then(async (data) => {
+            await setMyState(data.data.results);
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+      if (mode == "Series") {
+        fetch(
+          `https://gateway.marvel.com:443/v1/public/series?titleStartsWith=${searchNav}&apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
+        )
+          .then((response) => response.json())
+          .then(async (data) => {
+            await setMyState(data.data.results);
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+      if (mode == "Comics") {
+        fetch(
+          `https://gateway.marvel.com:443/v1/public/comics?titleStartsWith=${searchNav}&apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
+        )
+          .then((response) => response.json())
+          .then(async (data) => {
+            await setMyState(data.data.results);
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
   };
 
   // Functions
   const handleInputChange = (event) => {
     setSearchNav(event.target.value);
+  };
+  const changeMode = (event) => {
+    setMode(event.target.value);
   };
 
   return (
@@ -44,6 +79,11 @@ const Navbar = () => {
             onChange={handleInputChange}
             onKeyDown={search}
           />
+          <select className="text-black" onChange={changeMode}>
+            <option value="Characters">Characters</option>
+            <option value="Series">Series</option>
+            <option value="Comics">Comics</option>
+          </select>
         </label>
       </form>
     </nav>
