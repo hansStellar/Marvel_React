@@ -1,4 +1,4 @@
-import { setCharacters } from "../reducers/charactersReducers.js";
+import { setCharacters, setCharacter } from "../reducers/charactersReducers.js";
 
 export const searchCharacters = (searchQuery) => (dispatch) => {
   fetch(
@@ -11,4 +11,8 @@ export const searchCharacters = (searchQuery) => (dispatch) => {
     .catch((error) => {
       console.log(error);
     });
+};
+
+export const setCharacterAction = (searchQuery) => (dispatch) => {
+  dispatch(setCharacter(searchQuery));
 };
