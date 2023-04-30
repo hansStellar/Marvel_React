@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AppContext from "../AppContext";
 
 const Object = ({ info }) => {
+  // Global State
+  const { myState, setMyState } = useContext(AppContext);
+
+  // Router
   const navigate = useNavigate();
 
+  // Functions
   const handleClick = async () => {
-    navigate(`/single-object`, { state: { id: info.id } });
+    if (myState.type === "character")
+      return navigate(`/character/${info.id}`, { state: { id: info.id } });
+
+    if (myState.type === "serie")
+      return navigate(`/serie/${info.id}`, { state: { id: info.id } });
+
+    if (myState.type === "comic")
+      return navigate(`/comic/${info.id}`, { state: { id: info.id } });
   };
 
   return (

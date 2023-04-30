@@ -8,10 +8,10 @@ const Home = () => {
 
   return (
     <div className="container m-auto">
-      {myState.length >= 1 ? (
+      {myState.hasOwnProperty("data") ? (
         <div className="sm:columns-1 md:columns-2 lg:columns-3">
           <ul>
-            {myState.map((item, index) => {
+            {myState.data.map((item, index) => {
               return <Object info={item} key={index} />;
             })}
           </ul>

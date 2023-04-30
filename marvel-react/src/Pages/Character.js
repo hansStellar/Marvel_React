@@ -1,61 +1,30 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-const SingleObject = ({ serieId }) => {
+const Character = ({ serieId }) => {
   // Router DOM
   const location = useLocation();
   const { id } = location.state;
   const navigate = useNavigate();
 
   // Character
-  const [object, setObject] = useState();
+  const [character, setCharacter] = useState({});
 
   // Search
-
   fetch(
     `https://gateway.marvel.com:443/v1/public/characters/${id}?apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
   )
     .then((response) => {
       if (!response.ok) {
-        return new Error("Is not a character");
+        return new Error("Something has gone wrong, please try again");
       }
       return response.json();
     })
     .then((data) => {
-      return setObject(data.data.results[0]);
-    })
-    .catch((error) => {
-      return console.log(error);
-    });
-
-  fetch(
-    `https://gateway.marvel.com:443/v1/public/series/${id}?apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
-  )
-    .then((response) => {
-      if (!response.ok) {
-        return new Error("Is not a serie");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      return console.log(data);
-    })
-    .catch((error) => {
-      return console.log(error);
-    });
-
-  fetch(
-    `https://gateway.marvel.com:443/v1/public/comics/${id}?apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
-  )
-    .then((response) => {
-      if (!response.ok) {
-        return new Error("Is not a comic");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      return setObject(data.data.results[0]);
+      console.log(data);
+      return setCharacter(data.data.results[0]);
     })
     .catch((error) => {
       return console.log(error);
@@ -63,26 +32,26 @@ const SingleObject = ({ serieId }) => {
 
   return (
     <div class="container m-auto p-12">
-      {object && Object.keys(object).length !== 0 ? (
+      {character && Object.keys(character).length !== 0 ? (
         <div className="text-left">
           {/* Object */}
           <div className="my-6 max-w-[600px] mx-auto">
-            <h2 className="font-bold text-4xl mb-4">
-              {object.name || object.title}
-            </h2>
-            <p>{object.description}</p>
+            <h2 className="font-bold text-4xl mb-4">{character.name}</h2>
+            <p>{character.description}</p>
           </div>
-          <img src={object.thumbnail.path + "." + object.thumbnail.extension} />
+          <img
+            src={character.thumbnail.path + "." + character.thumbnail.extension}
+          />
 
           {/* Series */}
-          {/* <div className="my-6 max-w-[600px] mx-auto">
+          <div className="my-6 max-w-[600px] mx-auto">
             <h3 className="text-4xl font-bold mb-4">Series:</h3>
             <ul className="list-disc">
               {character.series.items.map((serie, index) => {
                 return (
                   <li
                     onClick={async () => {
-                      navigate("/series");
+                      navigate("/serie", { state: { id: serie.id } });
                     }}
                   >
                     {serie.name}
@@ -90,10 +59,10 @@ const SingleObject = ({ serieId }) => {
                 );
               })}
             </ul>
-          </div> */}
+          </div>
 
           {/* Comics */}
-          {/* <div className="my-6 max-w-[600px] mx-auto">
+          <div className="my-6 max-w-[600px] mx-auto">
             <h3 className="text-4xl font-bold mb-4">Comics:</h3>
             <ul className="list-disc">
               {character.comics.items.map((comic, index) => {
@@ -109,7 +78,7 @@ const SingleObject = ({ serieId }) => {
                 );
               })}
             </ul>
-          </div> */}
+          </div>
         </div>
       ) : (
         <div>
@@ -120,4 +89,4 @@ const SingleObject = ({ serieId }) => {
   );
 };
 
-export default SingleObject;
+export default Character;

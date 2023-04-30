@@ -22,7 +22,7 @@ const Navbar = () => {
         )
           .then((response) => response.json())
           .then(async (data) => {
-            await setMyState(data.data.results);
+            await setMyState({ data: data.data.results, type: "character" });
             navigate("/");
           })
           .catch((error) => {
@@ -35,7 +35,7 @@ const Navbar = () => {
         )
           .then((response) => response.json())
           .then(async (data) => {
-            await setMyState(data.data.results);
+            await setMyState({ data: data.data.results, type: "serie" });
             navigate("/");
           })
           .catch((error) => {
@@ -48,7 +48,7 @@ const Navbar = () => {
         )
           .then((response) => response.json())
           .then(async (data) => {
-            await setMyState(data.data.results);
+            await setMyState({ data: data.data.results, type: "comic" });
             navigate("/");
           })
           .catch((error) => {
