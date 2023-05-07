@@ -11,14 +11,11 @@ const Object = ({ info }) => {
 
   // Functions
   const handleClick = async () => {
-    if (myState.type === "character")
-      return navigate(`/character/${info.id}`, { state: { id: info.id } });
+    if (myState.type === "character") return navigate(`/character/${info.id}`);
 
-    if (myState.type === "serie")
-      return navigate(`/serie/${info.id}`, { state: { id: info.id } });
+    if (myState.type === "serie") return navigate(`/serie/${info.id}`);
 
-    if (myState.type === "comic")
-      return navigate(`/comic/${info.id}`, { state: { id: info.id } });
+    if (myState.type === "comic") return navigate(`/comic/${info.id}`);
   };
 
   return (

@@ -1,34 +1,31 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const Character = ({ serieId }) => {
   // Router DOM
-  const location = useLocation();
-  const { id } = location.state;
+  const { id } = useParams();
   const navigate = useNavigate();
 
   // Character
   const [character, setCharacter] = useState({});
 
   // Search
-  fetch(
-    `https://gateway.marvel.com:443/v1/public/characters/${id}?apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
-  )
-    .then((response) => {
-      if (!response.ok) {
-        return new Error("Something has gone wrong, please try again");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      return setCharacter(data.data.results[0]);
-    })
-    .catch((error) => {
-      return console.log(error);
-    });
+  useEffect(() => {
+    fetch(
+      `https://gateway.marvel.com:443/v1/public/characters/${id}?apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        return setCharacter(data.data.results[0]);
+      })
+      .catch((error) => {
+        return console.log(error);
+      });
+  }, [id]);
 
   return (
     <div class="container m-auto p-12">
@@ -50,8 +47,11 @@ const Character = ({ serieId }) => {
               {character.series.items.map((serie, index) => {
                 return (
                   <li
+                    key={index}
+                    className="cursor-pointer hover:text-blue-500 hover:underline"
                     onClick={async () => {
-                      navigate("/serie", { state: { id: serie.id } });
+                      let id = serie.resourceURI.split("/").pop();
+                      navigate(`/serie/${id}`);
                     }}
                   >
                     {serie.name}
@@ -67,13 +67,15 @@ const Character = ({ serieId }) => {
             <ul className="list-disc">
               {character.comics.items.map((comic, index) => {
                 return (
-                  <li>
-                    <a
-                      href={comic.resourceURI}
-                      title={`Click here and to see the ${comic.name} comic`}
-                    >
-                      {comic.name}
-                    </a>
+                  <li
+                    key={index}
+                    className="cursor-pointer hover:text-blue-500 hover:underline"
+                    onClick={async () => {
+                      let id = comic.resourceURI.split("/").pop();
+                      navigate(`/comic/${id}`);
+                    }}
+                  >
+                    {comic.name}
                   </li>
                 );
               })}

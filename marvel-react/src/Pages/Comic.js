@@ -1,91 +1,79 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const Character = ({ serieId }) => {
+const Comic = ({}) => {
   // Router DOM
-  const location = useLocation();
-  const { id } = location.state;
+  const { id } = useParams();
   const navigate = useNavigate();
 
   // Character
-  const [character, setCharacter] = useState({});
+  const [comic, setComic] = useState({});
 
   // Search
-  fetch(
-    `https://gateway.marvel.com:443/v1/public/characters/${id}?apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
-  )
-    .then((response) => {
-      if (!response.ok) {
-        return new Error("Something has gone wrong, please try again");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      return setCharacter(data.data.results[0]);
-    })
-    .catch((error) => {
-      return console.log(error);
-    });
+  useEffect(() => {
+    fetch(
+      `https://gateway.marvel.com:443/v1/public/comics/${id}?apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        return setComic(data.data.results[0]);
+      })
+      .catch((error) => {
+        return console.log(error);
+      });
+  }, [id]);
 
   return (
     <div class="container m-auto p-12">
-      {character && Object.keys(character).length !== 0 ? (
+      {comic && Object.keys(comic).length !== 0 ? (
         <div className="text-left">
           {/* Object */}
           <div className="my-6 max-w-[600px] mx-auto">
-            <h2 className="font-bold text-4xl mb-4">{character.name}</h2>
-            <p>{character.description}</p>
+            <h2 className="font-bold text-4xl mb-4">{comic.title}</h2>
+            <p>{comic.description}</p>
           </div>
-          <img
-            src={character.thumbnail.path + "." + character.thumbnail.extension}
-          />
+          <img src={comic.thumbnail.path + "." + comic.thumbnail.extension} />
 
-          {/* Series */}
-          <div className="my-6 max-w-[600px] mx-auto">
-            <h3 className="text-4xl font-bold mb-4">Series:</h3>
-            <ul className="list-disc">
-              {character.series.items.map((serie, index) => {
-                return (
-                  <li
-                    onClick={async () => {
-                      navigate("/series");
-                    }}
-                  >
-                    {serie.name}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          {/* Comics */}
-          <div className="my-6 max-w-[600px] mx-auto">
-            <h3 className="text-4xl font-bold mb-4">Comics:</h3>
-            <ul className="list-disc">
-              {character.comics.items.map((comic, index) => {
-                return (
-                  <li>
-                    <a
-                      href={comic.resourceURI}
-                      title={`Click here and to see the ${comic.name} comic`}
+          {/* Characters */}
+          {comic.characters.items.length != 0 ? (
+            <div className="my-6 max-w-[600px] mx-auto">
+              <h3 className="text-4xl font-bold mb-4">Characters:</h3>
+              <ul className="list-disc">
+                {comic.characters.items.map((character, index) => {
+                  return (
+                    <li
+                      className="cursor-pointer hover:text-blue-500 hover:underline"
+                      key={index}
+                      onClick={async () => {
+                        let id = character.resourceURI.split("/").pop();
+                        navigate(`/character/${id}`);
+                      }}
                     >
-                      {comic.name}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+                      {character.name}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ) : (
+            <div className="my-6 max-w-[600px] mx-auto">
+              <h3 className="text-4xl font-bold mb-4">
+                No characters have been found
+              </h3>
+            </div>
+          )}
         </div>
       ) : (
-        <div>
-          <p>Nothing has been found</p>
+        <div className="my-6 max-w-[600px] mx-auto">
+          <h3 className="text-4xl font-bold mb-4">Nothing has been found</h3>
         </div>
       )}
     </div>
   );
 };
 
-export default Character;
+export default Comic;
