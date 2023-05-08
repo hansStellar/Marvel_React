@@ -70,16 +70,19 @@ const Navbar = () => {
     <nav>
       <form className="columns-6 my-12 flex justify-center">
         {/* Search Bar */}
-        <label class="relative block">
+        <label class="relative block flex">
           <input
-            class="text-black placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 px-4 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+            class="text-black placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 px-4 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm rounded-tr-none rounded-br-none"
             placeholder="Search any character..."
             type="text"
             name="search"
             onChange={handleInputChange}
             onKeyDown={search}
           />
-          <select className="text-black" onChange={changeMode}>
+          <select
+            className="text-black text-black placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded-md py-2 px-4 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm rounded-tl-none rounded-bl-none"
+            onChange={changeMode}
+          >
             <option value="Characters">Characters</option>
             <option value="Series">Series</option>
             <option value="Comics">Comics</option>

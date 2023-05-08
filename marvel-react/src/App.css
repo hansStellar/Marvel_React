@@ -1,3 +1,42 @@
+body {
+  padding-bottom: 2.4em;
+  background: grey;
+}
+
+.object_base {
+  box-shadow: 12px 12px 0 0 black;
+  transition: 0.2s;
+  position: relative;
+}
+
+.object_base:focus,
+.object_base:hover {
+  box-shadow: none;
+  transform: translate(10px, 10px);
+  transition: 0.2s;
+}
+
+.object_base:focus img,
+.object_base:hover img {
+  opacity: 0.2;
+}
+
+.object_base:focus .popover,
+.object_base:hover .popover {
+  opacity: 1;
+}
+
+.popover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 80%;
+  text-align: center;
+  opacity: 0;
+}
+
 .App {
   text-align: center;
 }
