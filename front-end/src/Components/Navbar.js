@@ -42,19 +42,6 @@ const Navbar = () => {
             console.log(error);
           });
       }
-      if (mode == "Comics") {
-        fetch(
-          `https://gateway.marvel.com:443/v1/public/comics?titleStartsWith=${searchNav}&apikey=3f4ab6aff6e18d2f75c901bd8594fcad`
-        )
-          .then((response) => response.json())
-          .then(async (data) => {
-            await setMyState({ data: data.data.results, type: "comic" });
-            navigate("/");
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
     }
   };
 
@@ -68,7 +55,7 @@ const Navbar = () => {
 
   return (
     <nav>
-      <form className="columns-6 my-12 flex justify-center">
+      <form className="columns-6 my-8 flex justify-center xl:mb-16">
         {/* Search Bar */}
         <label class="relative block flex">
           <input
@@ -85,7 +72,6 @@ const Navbar = () => {
           >
             <option value="Characters">Characters</option>
             <option value="Series">Series</option>
-            <option value="Comics">Comics</option>
           </select>
         </label>
       </form>

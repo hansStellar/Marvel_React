@@ -28,7 +28,7 @@ const Character = ({ serieId }) => {
   }, [id]);
 
   return (
-    <div class="container m-auto px-12">
+    <div class="container m-auto px-4">
       {character && Object.keys(character).length !== 0 ? (
         <div className="text-left">
           {/* Object */}
@@ -48,33 +48,13 @@ const Character = ({ serieId }) => {
                     return (
                       <li
                         key={index}
-                        className="cursor-pointer hover:text-blue-500 hover:underline"
+                        className="cursor-pointer hover:text-red-500 hover:underline"
                         onClick={async () => {
                           let id = serie.resourceURI.split("/").pop();
                           navigate(`/serie/${id}`);
                         }}
                       >
                         {serie.name}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-              {/* Comics */}
-              <div className="my-6 hidden xl:block">
-                <h3 className="text-4xl font-bold mb-4">Comics:</h3>
-                <ul className="list-disc">
-                  {character.comics.items.map((comic, index) => {
-                    return (
-                      <li
-                        key={index}
-                        className="cursor-pointer hover:text-blue-500 hover:underline"
-                        onClick={async () => {
-                          let id = comic.resourceURI.split("/").pop();
-                          navigate(`/comic/${id}`);
-                        }}
-                      >
-                        {comic.name}
                       </li>
                     );
                   })}
@@ -98,34 +78,13 @@ const Character = ({ serieId }) => {
                 return (
                   <li
                     key={index}
-                    className="cursor-pointer hover:text-blue-500 hover:underline"
+                    className="cursor-pointer hover:text-red-500 hover:underline"
                     onClick={async () => {
                       let id = serie.resourceURI.split("/").pop();
                       navigate(`/serie/${id}`);
                     }}
                   >
                     {serie.name}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          {/* Comics */}
-          <div className="my-6 max-w-[600px] mx-auto xl:hidden">
-            <h3 className="text-4xl font-bold mb-4">Comics:</h3>
-            <ul className="list-disc">
-              {character.comics.items.map((comic, index) => {
-                return (
-                  <li
-                    key={index}
-                    className="cursor-pointer hover:text-blue-500 hover:underline"
-                    onClick={async () => {
-                      let id = comic.resourceURI.split("/").pop();
-                      navigate(`/comic/${id}`);
-                    }}
-                  >
-                    {comic.name}
                   </li>
                 );
               })}
